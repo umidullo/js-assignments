@@ -130,7 +130,10 @@ function repeatString(value, count) {
  *   'ABABAB','BA' => 'ABAB'
  */
 function removeFirstOccurrences(str, value) {
-    throw new Error('Not implemented');
+    const len = value.length
+    const first_in = str.indexOf(value);
+    let result = str.slice(0, first_in) + str.slice((first_in + len))
+    return result
 }
 
 /**
@@ -202,34 +205,34 @@ function extractEmails(str) {
  */
 function getRectangleString(width, height) {
     let result = ''
-    for(let i = 0; i < height; i++) {
-        for(let j = 0; j < width; j++) {
-            if(i === 0 && j === 0) {
+    for (let i = 0; i < height; i++) {
+        for (let j = 0; j < width; j++) {
+            if (i === 0 && j === 0) {
                 result += '┌';
             }
-            if(i === 0 && j === width - 1) {
+            if (i === 0 && j === width - 1) {
                 result += '┐';
                 result += '\n'
 
             }
-            if(i === height - 1 && j === 0) {
+            if (i === height - 1 && j === 0) {
                 result += '└';
             }
-            if(i === height - 1 && j === width - 1) {
+            if (i === height - 1 && j === width - 1) {
                 result += '┘';
                 result += '\n'
 
             }
-            if((i === 0 || i === height - 1) && (j !== width - 1 && j !== 0)) {
+            if ((i === 0 || i === height - 1) && (j !== width - 1 && j !== 0)) {
                 result += '─';
             }
-            if((i !== 0 && i !== height - 1) && (j === width - 1 || j === 0)) {
+            if ((i !== 0 && i !== height - 1) && (j === width - 1 || j === 0)) {
                 result += '│';
-                if( (i !== 0 && i !== height - 1) && j === width - 1) {
+                if ((i !== 0 && i !== height - 1) && j === width - 1) {
                     result += '\n'
                 }
             }
-            if((i > 0 && i < height - 1) && (j > 0 && j < width - 1)) {
+            if ((i > 0 && i < height - 1) && (j > 0 && j < width - 1)) {
                 result += ' '
             }
         }
@@ -255,7 +258,14 @@ function getRectangleString(width, height) {
  *
  */
 function encodeToRot13(str) {
-    throw new Error('Not implemented');
+    return str.split('').map(e => {
+        if ((e.charCodeAt() >= 65 && e.charCodeAt() <= 90) || (e.charCodeAt() >= 97 && e.charCodeAt() <= 122)) {
+            if ((e.charCodeAt() <= 90 && e.charCodeAt() >= 78) || (e.charCodeAt() <= 122 && e.charCodeAt() >= 110)) {
+                return String.fromCharCode(e.charCodeAt() - 13)
+            }
+            return String.fromCharCode(e.charCodeAt() + 13)
+        } else return e
+    }).join('')
 }
 
 /**
@@ -272,7 +282,11 @@ function encodeToRot13(str) {
  *   isString(new String('test')) => true
  */
 function isString(value) {
-    throw new Error('Not implemented');
+    if ((typeof (value) === 'string') || (value instanceof String)) {
+        return true;
+
+    }
+    return false
 }
 
 
@@ -301,7 +315,15 @@ function isString(value) {
  *   'K♠' => 51
  */
 function getCardId(value) {
-    throw new Error('Not implemented');
+    const cards = [
+        'A♣', '2♣', '3♣', '4♣', '5♣', '6♣', '7♣', '8♣', '9♣', '10♣', 'J♣', 'Q♣', 'K♣',
+        'A♦', '2♦', '3♦', '4♦', '5♦', '6♦', '7♦', '8♦', '9♦', '10♦', 'J♦', 'Q♦', 'K♦',
+        'A♥', '2♥', '3♥', '4♥', '5♥', '6♥', '7♥', '8♥', '9♥', '10♥', 'J♥', 'Q♥', 'K♥',
+        'A♠', '2♠', '3♠', '4♠', '5♠', '6♠', '7♠', '8♠', '9♠', '10♠', 'J♠', 'Q♠', 'K♠'
+    ]
+    for (let i = 0; i < cards.length; i++) {
+        if (cards[i] === value) return i
+    }
 }
 
 
